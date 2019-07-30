@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Winter Jubilee</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'main_app/css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="{% static 'main_app/css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+    .padding{
+        padding: 50px;
+    }
+    .bold{
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    
+        <nav class="white" role="navigation">
+                <div class="nav-wrapper container">
+                  <a id="logo-container" href="/" class="brand-logo" style="font-family: 'Comic Sans MS', cursive, sans-serif;">ELA Youth</a>
+                  <ul class="right hide-on-med-and-down">
+                    <li><a href="display_ssot">SSOT</a></li>
+                    <li><a href="display_winter_jubilee">Winter Jubilee</a></li>
+                    <!-- <li><a href="home_meetings">Home Meetings</a></li> -->
+                    <li><a href="announcements">Announcements</a></li>
+                    <li><a href="display_login_registration">Login/Register</a></li>
+                    {% if logged_in_user %}<li><a href="word_feed">WordFeed</a></li>{% endif %}
+
+
+                    <!-- <li><a href="admin">Admin</a></li> -->
+                  </ul>
+            
+                  <ul id="nav-mobile" class="sidenav">
+                    <li><a href="display_ssot">SSOT</a></li>
+                    <li><a href="display_winter_jubilee">Winter Jubilee</a></li>
+                    <!-- <li><a href="home_meetings">Home Meetings</a></li> -->
+                    <li><a href="announcements">Announcements</a></li>
+                    <li><a href="display_login_registration">Login/Register</a></li>
+                    {% if logged_in_user %}<li><a href="word_feed">WordFeed</a></li>{% endif %}
+
+                    <!-- <li><a href="admin">Admin</a></li> -->
+                  </ul>
+                  <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                </div>
+              </nav>
+              {% if messages %}
+              {% for message in messages %} 
+              <p style="color: red;">{{ message }}</p>
+              {% endfor %} 
+              {% endif %}
+
+<!-- <div class="container"> -->
+
+        <!-- <div class="container"> -->
+
+        <div class="row padding">
+          <div class="col-sm-8">
+              <h2>What is the Winter Jubilee?</h2>
+              <p>The Winter Jubilee is a weekend-long retreat. Tipically in the winter season and in the San Bernandino Mountains, this is a great opportunity to leave all preoccupations of the city and retreat to a time of enjoying the Lord and to receive a special portion from the Word.
+                  </p>
+
+          </div>
+          <div class="col-sm-4"> <h2>Winter Jubilee 2019 Information</h2>
+            <ul>
+
+                <li>Cost: <span class='bold'>105.00</span> </li>
+                <li>Location: <span class='bold'>Oak Glen Christian Conference Center</span></li>
+                <li>Dates: <span class='bold'>January 5th-January 7th</span></li>
+                <li>Registration Deadline: <span class='bold'>December 15th </span></li>
+            </ul>
+        </div>
+    </div>
+        
+        <div class="row padding">
+                <div class="col-sm">
+                        <h2>Register Here</h2>
+                          <form action="submit_winter_jubilee" method="post"> 
+                                {% csrf_token %}
+                                  <div class="form-group row">
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">First Name</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" name="first_name" class="form-control" id="inputEmail3" placeholder="">
+                                    </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <label for="inputPassword3" class="col-sm-2 col-form-label">Last Name</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" name="last_name" class="form-control" id="inputPassword3" placeholder="">
+                                    </div>
+                                  </div>
+                                  
+                                  <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Gender:</label>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="gender">
+                                          <option>Choose</option>
+                                          <option>Female</option>
+                                          <option>Male</option>
+                                        </select>
+                                      </div>
+                                  <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Need Transportation:</label>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="need_transportation">
+                                          <option>Choose</option>
+                                          <option>Yes</option>
+                                          <option>No</option>
+                                        </select>
+                                      </div>
+         
+                                  <div class="form-group">
+                                          <label for="exampleFormControlSelect1">Going Into:</label>
+                                          <select class="form-control" id="exampleFormControlSelect1" name="going_to">
+                                            <option>Choose</option>
+                                            <option>6th</option>
+                                            <option>7th</option>
+                                            <option>8th</option>
+                                            <option>9th</option>
+                                            <option>10th</option>
+                                            <option>11th</option>
+                                            <option>12th</option>
+                                            <option>College</option>
+                                            <option>Serving One</option>
+                                            <option>Parent</option>
+                                          </select>
+                                        </div>
+                                        <br><br>
+  
+                                  <div class="form-group row">
+                                    <div class="col-sm-10">
+                                      <button type="submit" class="btn btn-primary">Register</button>
+                                    </div>
+                                   
+                                  </div>
+                              </form>
+          
+                    </div>
+
+          <div class="col-sm padding">
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="9KNK8UACKFJ2L">
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                    </form>
+                    
+          </div>
+
+      </div>
+
+      <footer class="page-footer teal">
+            <div class="container">
+              <div class="row">
+                <div class="col l6 s12">
+                  <h5 class="white-text">The Church in East Los Angeles</h5>
+                  <p class="grey-text text-lighten-4">1135 S Kern Ave, East Los Angeles, CA 90022</p>
+        
+        
+                </div>
+                <!-- <div class="col l3 s12">
+                  <h5 class="white-text">Phone</h5>
+                  <ul>
+                    <li><a class="white-text" href="#!">Link 1</a></li>
+                    <li><a class="white-text" href="#!">Link 2</a></li>
+                    <li><a class="white-text" href="#!">Link 3</a></li>
+                    <li><a class="white-text" href="#!">Link 4</a></li>
+                  </ul>
+                </div> -->
+                <div class="col l3 s12">
+                  <h5 class="white-text">Copyright</h5>
+                    <p>© 2019 The Church is East Los Angeles</p>
+                    <p>All rights reserved.</p>
+                  <!-- <ul>
+                    <li><a class="white-text" href="#!">Link 1</a></li>
+                    <li><a class="white-text" href="#!">Link 2</a></li>
+                    <li><a class="white-text" href="#!">Link 3</a></li>
+                    <li><a class="white-text" href="#!">Link 4</a></li>
+                  </ul> -->
+                </div>
+              </div>
+            </div>
+            <div class="footer-copyright">
+              <div class="container">
+              <!-- Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a> -->
+              </div>
+            </div>
+          </footer>
+      {% load static %}
+      <!--  Scripts-->
+      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="{% static 'main_app/js/materialize.js' %}"></script>
+      <script src="{% static 'main_app/js/init.js' %}"></script>
+
+</html>
+</body>

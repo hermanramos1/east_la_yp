@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WordFeed</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {% load static %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'main_app/css/materialize.css' %}" type="text/css" rel="stylesheet"
+        media="screen,projection" />
+    <link href="{% static 'main_app/css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <style>
+        .padding {
+            padding: 50px;
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+    <nav class="white" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="/" class="brand-logo"
+                style="font-family: 'Comic Sans MS', cursive, sans-serif;">ELA Youth</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="display_ssot">SSOT</a></li>
+                <li><a href="display_winter_jubilee">Winter Jubilee</a></li>
+                <!-- <li><a href="home_meetings">Home Meetings</a></li> -->
+                <li><a href="announcements">Announcements</a></li>
+                <li><a href="display_login_registration">Login/Register</a></li>
+                {% if current_user_id %}<li><a href="word_feed">WordFeed</a></li>{% endif %}
+
+                <!-- <li><a href="admin">Admin</a></li> -->
+            </ul>
+
+            <ul id="nav-mobile" class="sidenav">
+                <li><a href="display_ssot">SSOT</a></li>
+                <li><a href="display_winter_jubilee">Winter Jubilee</a></li>
+                <!-- <li><a href="home_meetings">Home Meetings</a></li> -->
+                <li><a href="announcements">Announcements</a></li>
+                <li><a href="display_login_registration">Login/Register</a></li>
+                {% if current_user_id %}<li><a href="word_feed">WordFeed</a></li>{% endif %}
+
+                <!-- <li><a href="admin">Admin</a></li> -->
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+
+
+
+
+
+
+
+    <div class="main-content padding">
+        <h1>Welcome, {{ user_first_name }}</h1>
+            <br>
+    
+                       <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Make a Post
+                </button>
+          
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Make a Post</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                        <form action="/create_post" method="post">
+                                {% csrf_token %}
+    
+                                <div class="form-group">
+                                  <label for="exampleFormControlTextarea1">Post:</label>
+                                  <textarea class="form-control" name="post_content" id="exampleFormControlTextarea1" rows="3" name="message" placeholder=""></textarea>
+                                </div>
+                                <button type="submit" class='btn btn-primary'>Post</button>
+                              </form>
+                            </div>
+                    </div>    
+                </div>
+        </div>
+    
+        <br><br><br>
+
+
+        <!-- display posts -->
+        {% for post in all_posts %}
+
+        <h4>
+            {{ post.post_content }} </h4> <span class="font-size: 12px;">{{ post.user.first_name }} - {{ post.created_at }}</span>
+        
+        {% if current_user_id == post.user.id %}
+        <form action="/delete_post/{{ post.id }}" method="POST" style="display:inline-block">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+        {% endif %}
+        <br>
+
+
+        <!-- display comments  -->
+        {% for comment in post.comments.all %}
+        <div>
+            <p style="display:inline-block;">{{comment.comment_content}} - {{comment.user.first_name}} -
+                {{comment.created_at}} </p>
+
+            {% if current_user_id == comment.user.id %}
+            <form action="/delete_comment/{{ comment.id }}" method="POST" style="display:inline-block">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+
+        <!-- make comments  -->
+        <form style="width: 400px;" method="post" action="/create_comment/{{ post.id }}" class="was-validated">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="validationTextarea">Comment:</label>
+                <textarea name="comment_content" class="form-control is-invalid" id="validationTextarea"
+                    placeholder="The comment must be at least 10 characters" required></textarea>
+                <input type="submit" class="btn btn-primary" value="Submit">
+            </div>
+        </form>
+        </p>
+
+
+        
+        {% endfor %}
+
+
+
+        
+        <br>
+        <a href="/logout">Log Out</a>
+    </div>
+
+
+
+
+
+
+    <!-- footer -->
+    <footer class="page-footer teal">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">The Church in East Los Angeles</h5>
+                    <p class="grey-text text-lighten-4">1135 S Kern Ave, East Los Angeles, CA 90022</p>
+
+
+                </div>
+                <!-- <div class="col l3 s12">
+              <h5 class="white-text">Phone</h5>
+              <ul>
+                <li><a class="white-text" href="#!">Link 1</a></li>
+                <li><a class="white-text" href="#!">Link 2</a></li>
+                <li><a class="white-text" href="#!">Link 3</a></li>
+                <li><a class="white-text" href="#!">Link 4</a></li>
+              </ul>
+            </div> -->
+                <div class="col l3 s12">
+                    <h5 class="white-text">Copyright</h5>
+                    <p>© 2019 The Church is East Los Angeles</p>
+                    <p>All rights reserved.</p>
+                    <!-- <ul>
+                <li><a class="white-text" href="#!">Link 1</a></li>
+                <li><a class="white-text" href="#!">Link 2</a></li>
+                <li><a class="white-text" href="#!">Link 3</a></li>
+                <li><a class="white-text" href="#!">Link 4</a></li>
+              </ul> -->
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                <!-- Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a> -->
+            </div>
+        </div>
+    </footer>
+    {% load static %}
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'main_app/js/materialize.js' %}"></script>
+    <script src="{% static 'main_app/js/init.js' %}"></script>
+</body>
+
+</html>
