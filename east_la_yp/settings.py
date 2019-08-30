@@ -25,8 +25,7 @@ SECRET_KEY = 'gr8i$l9w+jp@9nua2rl%q6ahly3vrjragw3v*xobm%0n8rx^*g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['www.eastlayouth.com', 'eastlayouth']
 
 # Application definition
 
